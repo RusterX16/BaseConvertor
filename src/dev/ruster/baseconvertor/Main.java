@@ -1,5 +1,7 @@
 package dev.ruster.baseconvertor;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Scanner;
 
 public class Main {
@@ -7,6 +9,8 @@ public class Main {
     private static final Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
+        System.out.println("Press 0 to exit");
+
         do {
             System.out.print("Décimal : ");
             int n = scan.nextInt();
@@ -15,11 +19,11 @@ public class Main {
                 System.out.println("Merci, au revoir !");
                 System.exit(0);
             }
-            System.out.print("Binaire : " + binaryValueOf(n) + "\n");
+            System.out.print("Hexadécimal : " + binaryValueOf(n) + "\n");
         } while(true);
     }
 
-    public static String binaryValueOf(int decimal) {
+    public static @NotNull String binaryValueOf(int decimal) {
         boolean hasNext = true;
         String result = "";
 
@@ -28,22 +32,8 @@ public class Main {
                 hasNext = false;
             }
             result = result.concat(String.valueOf(decimal % 2));
-            decimal -= decimal % 2 == 0 ? decimal / 2 : (decimal / 2) + 1;
+            decimal -= decimal / 2 + (decimal % 2 == 0 ? 0 : 1);
         }
-        String reversedResult = "";
-
-        for(int i = 0; i < result.length(); i++) {
-            reversedResult = reversedResult.concat(String.valueOf(result.charAt(result.length() - 1 - i)));
-        }
-        return reversedResult;
-    }
-
-    public static String hexValueOf(int decimal) {
-        String binaryValue = binaryValueOf(decimal);
-
-        for(int i = 0; i < binaryValue.length(); i++) {
-
-        }
-        return "";
+        return new StringBuilder(result).reverse().toString();
     }
 }
